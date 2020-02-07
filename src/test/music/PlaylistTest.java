@@ -65,7 +65,7 @@ public class PlaylistTest {
 
     @Test
     void testViewPlaylist() {
-        assertEquals("playlist1:\n2 songs - 389 seconds\n1. Boats - Jacob\n2. Airplanes - Jessica\n",
+        assertEquals("playlist1:\n2 songs - 389 seconds\n1. Boats - Jacob (237s)\n2. Airplanes - Jessica (152s)",
                 playlist1.viewPlaylist());
     }
 

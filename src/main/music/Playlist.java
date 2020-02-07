@@ -19,7 +19,7 @@ public class Playlist {
             }
         }
         playlist.add(song);
-        System.out.println(song.getName() + " has been successfully added to " + name);
+        System.out.println(song.getName() + " by " + song.getArtist() + " has been successfully added to " + name);
     }
 
     public void removeSong(Song song) {
@@ -51,11 +51,12 @@ public class Playlist {
 
     public String viewPlaylist() {
         String information = "";
-        information += name + ":\n";
-        information += playlistSize() + " songs - " + playlistTime() + " seconds\n";
+        information += name + ":";
+        information += "\n" + playlistSize() + " songs - " + playlistTime() + " seconds";
         int index = 1;
         for (Song song : playlist) {
-            information += index + ". " + song.getName() + " - " + song.getArtist() + "\n";
+            information += "\n" + index + ". " + song.getName() + " - " + song.getArtist() + " (" + song.getSongLength()
+                    + "s)";
             index++;
         }
         return information;
