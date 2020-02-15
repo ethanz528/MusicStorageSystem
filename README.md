@@ -21,4 +21,6 @@ project because I listen to music a lot, and I do not have an application I can 
 <li>As a user, I want to be able to add and remove songs from the playlists</li>
 <li>As a user, I want to be able to view my music library and playlists</li>
 <li>As a user, I want to be able to play music and skip songs</li>
+<li>As a user, I want to be able to save my music library and playlists when I quit the program</li>
+<li>As a user, I want to be able to still access my previous music library and playlists when the program starts</li>
 </ul>
