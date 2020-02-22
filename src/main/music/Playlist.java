@@ -102,16 +102,14 @@ public class Playlist implements Saveable {
         } else {
             printWriter.print(name);
             printWriter.print(Reader.DELIMITER);
-            if (playlistSize() > 0) {
-                for (Song song : playlist.subList(0, playlist.size() - 1)) {
-                    song.save(printWriter);
-                }
-                printWriter.print(playlist.get(playlist.size() - 1).getName());
-                printWriter.print(Reader.DELIMITER);
-                printWriter.print(playlist.get(playlist.size() - 1).getArtist());
-                printWriter.print(Reader.DELIMITER);
-                printWriter.println(playlist.get(playlist.size() - 1).getSongLength());
+            for (Song song : playlist.subList(0, playlist.size() - 1)) {
+                song.save(printWriter);
             }
+            printWriter.print(playlist.get(playlist.size() - 1).getName());
+            printWriter.print(Reader.DELIMITER);
+            printWriter.print(playlist.get(playlist.size() - 1).getArtist());
+            printWriter.print(Reader.DELIMITER);
+            printWriter.println(playlist.get(playlist.size() - 1).getSongLength());
         }
     }
 }
