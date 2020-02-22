@@ -26,6 +26,8 @@ public class WriterTest {
     private Playlist playlist1;
     private Playlist playlist2;
     private Playlist playlist3;
+    private Playlist playlist4;
+    private Playlist playlist5;
     private ArrayList<Playlist> playlists;
 
     @BeforeEach
@@ -52,10 +54,15 @@ public class WriterTest {
         playlist3 = new Playlist("What is the Ground?");
         playlist3.addSong(song1);
         playlist3.addSong(song2);
+        playlist4 = new Playlist("Space Travel");
+        playlist5 = new Playlist("Flies");
+        playlist5.addSong(song2);
         playlists = new ArrayList<Playlist>();
         playlists.add(playlist1);
         playlists.add(playlist2);
         playlists.add(playlist3);
+        playlists.add(playlist4);
+        playlists.add(playlist5);
     }
 
     @Test
@@ -118,6 +125,15 @@ public class WriterTest {
             assertEquals(song2.getName(), playlist3.getPlaylist().get(1).getName());
             assertEquals(song2.getArtist(), playlist3.getPlaylist().get(1).getArtist());
             assertEquals(song2.getSongLength(), playlist3.getPlaylist().get(1).getSongLength());
+
+            Playlist playlist4 = playlists.get(4);
+            assertEquals("Space Travel", playlist4.getName());
+
+            Playlist playlist5 = playlists.get(5);
+            assertEquals("Flies", playlist5.getName());
+            assertEquals(song2.getName(), playlist5.getPlaylist().get(0).getName());
+            assertEquals(song2.getArtist(), playlist5.getPlaylist().get(0).getArtist());
+            assertEquals(song2.getSongLength(), playlist5.getPlaylist().get(0).getSongLength());
         } catch (IOException e) {
             fail("IOException should not have been thrown");
         }
