@@ -11,6 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ReaderTest {
+    Reader testReader;
+
+    @Test
+    void testReader() {
+        testReader = new Reader();
+    }
+
     @Test
     void testParsePlaylistFile() {
         try {

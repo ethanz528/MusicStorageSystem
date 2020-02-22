@@ -11,6 +11,7 @@ public class Playlist implements Saveable {
     private String name;
     private ArrayList<Song> playlist;
 
+    // REQUIRES: Name does not contain a comma (,)
     // EFFECTS: Playlist has been given a name, and an empty Playlist
     public Playlist(String name) {
         this.name = name;

@@ -11,7 +11,8 @@ public class Song implements Saveable {
     private String artist;
     private int songLength;
 
-    // REQUIRES: songLength is positive
+    // REQUIRES: songLength is positive, name and artist do not contain
+    // a comma (,)
     // EFFECTS: Song has been given a name, an artist and a songLength
     public Song(String name, String artist, int songLength) {
         this.name = name;

@@ -14,6 +14,9 @@ import java.util.List;
 public class Reader {
     public static final String DELIMITER = ",";
 
+    public Reader(){
+    }
+
     // EFFECTS: returns a list of playlists parsed from file; throws
     // IOException if an exception is raised when opening / reading from file
     public static List<Playlist> readPlaylists(File file) throws IOException {
@@ -46,7 +49,7 @@ public class Reader {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
-    
+
     // REQUIRES: components have size of at least 1, where element 0
     // represents the name of the playlist, and each set of 3 elements
     // after represents the name, artist and length of a song in the
