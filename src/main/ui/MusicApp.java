@@ -1,14 +1,22 @@
 package ui;
 
+import music.PlayMusic;
 import music.Playlist;
 import music.Song;
-import music.PlayMusic;
+import persistence.Reader;
+import persistence.Writer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 // Music application
 public class MusicApp {
+    private static final String MUSIC_FILE = "./data/music.txt";
     private Playlist musicLibrary;
     private ArrayList<Playlist> playlists;
     private PlayMusic playMusic;
@@ -20,12 +28,14 @@ public class MusicApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: processes user input
+    // EFFECTS: loads music from MUSIC_FILE if its exists, processes user input
     public void runMusicApp() {
         boolean keepGoing = true;
         String command;
 
-        init();
+        input = new Scanner(System.in);
+
+        loadMusic();
 
         while (keepGoing) {
             displayMenu();
@@ -34,9 +44,43 @@ public class MusicApp {
 
             if (command.equals("q")) {
                 keepGoing = false;
+                System.out.println("Exited Music App");
             } else {
                 processCommand(command);
             }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads musicLibrary and playlists from MUSIC_FILE, if that file exists;
+    // otherwise initializes accounts with default values
+    private void loadMusic() {
+        try {
+            List<Playlist> music = Reader.readPlaylists(new File(MUSIC_FILE));
+            musicLibrary = music.get(0);
+            playlists = new ArrayList<Playlist>();
+            for (int i = 1; i < music.size(); i++) {
+                playlists.add(music.get(i));
+            }
+        } catch (IOException e) {
+            init();
+        }
+    }
+
+    // EFFECTS: saves musicLibrary and playlists to MUSIC_FILE
+    private void saveMusic() {
+        try {
+            Writer writer = new Writer(new File(MUSIC_FILE));
+            writer.write(musicLibrary);
+            for (Playlist playlist : playlists) {
+                writer.write(playlist);
+            }
+            writer.close();
+            System.out.println("Music saved to file " + MUSIC_FILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save music to " + MUSIC_FILE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 
@@ -49,6 +93,8 @@ public class MusicApp {
             doPlaylists();
         } else if (command.equals("p")) {
             doPlay();
+        } else if (command.equals("s")) {
+            saveMusic();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -60,7 +106,6 @@ public class MusicApp {
         musicLibrary = new Playlist("Music Library");
         playlists = new ArrayList();
         playMusic = new PlayMusic(musicLibrary);
-        input = new Scanner(System.in);
     }
 
     // EFFECTS: displays menu of options to user
@@ -69,6 +114,7 @@ public class MusicApp {
         System.out.println("\tm -> edit Music Library");
         System.out.println("\te -> edit playlists");
         System.out.println("\tp -> play songs from playlist or Music Library");
+        System.out.println("\ts -> save Music Library and playlists");
         System.out.println("\tq -> quit");
     }
 

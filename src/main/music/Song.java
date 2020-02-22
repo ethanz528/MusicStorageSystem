@@ -1,7 +1,12 @@
 package music;
 
+import persistence.Reader;
+import persistence.Saveable;
+
+import java.io.PrintWriter;
+
 // Represents a song having a name, artist and length (in seconds)
-public class Song {
+public class Song implements Saveable {
     private String name;
     private String artist;
     private int songLength;
@@ -39,5 +44,15 @@ public class Song {
     // EFFECTS: returns songLength
     public int getSongLength() {
         return songLength;
+    }
+
+    @Override
+    public void save(PrintWriter printWriter) {
+        printWriter.print(name);
+        printWriter.print(Reader.DELIMITER);
+        printWriter.print(artist);
+        printWriter.print(Reader.DELIMITER);
+        printWriter.print(songLength);
+        printWriter.print(Reader.DELIMITER);
     }
 }

@@ -1,9 +1,13 @@
 package music;
 
+import persistence.Reader;
+import persistence.Saveable;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 // Represents a playlist of songs having a name
-public class Playlist {
+public class Playlist implements Saveable {
     private String name;
     private ArrayList<Song> playlist;
 
@@ -89,5 +93,25 @@ public class Playlist {
     // EFFECTS: returns playlist
     public ArrayList<Song> getPlaylist() {
         return playlist;
+    }
+
+    @Override
+    public void save(PrintWriter printWriter) {
+        if (playlistSize() == 0) {
+            printWriter.println(name);
+        } else {
+            printWriter.print(name);
+            printWriter.print(Reader.DELIMITER);
+            if (playlistSize() > 0) {
+                for (Song song : playlist.subList(0, playlist.size() - 1)) {
+                    song.save(printWriter);
+                }
+                printWriter.print(playlist.get(playlist.size() - 1).getName());
+                printWriter.print(Reader.DELIMITER);
+                printWriter.print(playlist.get(playlist.size() - 1).getArtist());
+                printWriter.print(Reader.DELIMITER);
+                printWriter.println(playlist.get(playlist.size() - 1).getSongLength());
+            }
+        }
     }
 }
