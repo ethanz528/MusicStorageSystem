@@ -46,10 +46,12 @@ public class Reader {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
-    // REQUIRES: components has size 2 where element 0 represents the
-    // id of the next account to be constructed, element 1 represents
-    // the playlist
-    // EFFECTS: returns an account constructed from components
+    
+    // REQUIRES: components have size of at least 1, where element 0
+    // represents the name of the playlist, and each set of 3 elements
+    // after represents the name, artist and length of a song in the
+    // playlist
+    // EFFECTS: returns an playlist constructed from components
     private static Playlist parsePlaylist(List<String> components) {
         String name = components.get(0);
         Playlist playlist = new Playlist(name);
