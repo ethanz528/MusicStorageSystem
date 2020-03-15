@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 // Music application
 public class MusicApp {
+    private boolean keepGoing = true;
     private static final String MUSIC_FILE = "./data/music.txt";
     private Playlist musicLibrary;
     private ArrayList<Playlist> playlists;
@@ -30,7 +31,6 @@ public class MusicApp {
     // MODIFIES: this
     // EFFECTS: loads music from MUSIC_FILE if its exists, processes user input
     public void runMusicApp() {
-        boolean keepGoing = true;
         String command;
 
         input = new Scanner(System.in);
@@ -49,6 +49,10 @@ public class MusicApp {
                 processCommand(command);
             }
         }
+    }
+
+    private void quit() {
+        keepGoing = false;
     }
 
     // MODIFIES: this

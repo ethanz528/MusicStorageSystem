@@ -1,9 +1,7 @@
 package ui;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -20,9 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main extends Application {
-    private Stage stage;
-    private Scene mainMenu;
+public class Controller {
     private static final String MUSIC_FILE = "./data/music.txt";
     protected Playlist musicLibrary;
     private ArrayList<Playlist> playlists;
@@ -30,31 +26,25 @@ public class Main extends Application {
     protected Playlist currentPlaylist;
     protected Song selectedSong;
 
+    protected Stage primaryStage;
+    private Scene playlist;
+
     @FXML
     private Text text;
 
-    public static void main(String[] args) {
-        launch(args);
+    public void start(Stage primaryStage) {
+
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("mainMenu.fxml"));
-        Parent root = loader.load();
-        loadMusic();
-        //((Controller) loader.getController()).setPrimaryStage(primaryStage);
-
-        mainMenu = new Scene(root);
-        primaryStage.setTitle("Music App");
-        primaryStage.setScene(mainMenu);
-        primaryStage.show();
+    public void setPrimaryStage(Stage stage) throws IOException {
+        this.primaryStage = stage;
+        playlist = new Scene(FXMLLoader.load(Main.class.getResource("playlist.fxml")));
     }
 
-    public void musicLibrary() throws Exception {
+    public void musicLibrary() {
         currentPlaylist = musicLibrary;
-        Main abc = new ViewPlaylist();
-        abc.start(stage);
+        primaryStage.setScene(playlist);
+        primaryStage.setTitle("Music Library");
     }
 
     // MODIFIES: this
