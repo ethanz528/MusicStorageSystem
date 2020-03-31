@@ -47,6 +47,10 @@ public class Song implements Saveable {
         return songLength;
     }
 
+    public String getInfo() {
+        return name + " - " + artist + " (" + songLength + "s)";
+    }
+
     @Override
     public void save(PrintWriter printWriter) {
         printWriter.print(name);

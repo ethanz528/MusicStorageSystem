@@ -1,94 +1,107 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import music.PlayMusic;
-import music.Playlist;
-import music.Song;
-import persistence.Reader;
-import persistence.Writer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Main extends Application {
-    private Stage stage;
-    private Scene mainMenu;
-    private static final String MUSIC_FILE = "./data/music.txt";
-    protected Playlist musicLibrary;
-    private ArrayList<Playlist> playlists;
-    private PlayMusic playMusic;
-    protected Playlist currentPlaylist;
-    protected Song selectedSong;
+public class Main extends Application implements EventHandler<ActionEvent> {
+    Stage window;
+    Scene mainMenuScene;
 
-    @FXML
-    private Text text;
+    Button musicLibraryButton;
+    Button playlistsButton;
+    Button playMusicButton;
+    Button saveMusicButton;
+    Button loadMusicButton;
+    Button quitButton;
+
+    Label text;
+
+    MusicLibraryMenu musicLibraryMenu;
+    PlaylistsMenu playlistsMenu;
+    EditPlaylistMenu editPlaylistMenu;
+    PlayMusicMenu playMusicMenu;
+
+    RepackagedMusicApp musicApp;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("mainMenu.fxml"));
-        Parent root = loader.load();
-        loadMusic();
-        //((Controller) loader.getController()).setPrimaryStage(primaryStage);
+    public void start(Stage primaryStage) throws IOException {
+        window = primaryStage;
 
-        mainMenu = new Scene(root);
-        primaryStage.setTitle("Music App");
-        primaryStage.setScene(mainMenu);
-        primaryStage.show();
+        musicLibraryMenu = new MusicLibraryMenu();
+        playlistsMenu = new PlaylistsMenu();
+        editPlaylistMenu = new EditPlaylistMenu();
+        playMusicMenu = new PlayMusicMenu();
+
+        musicApp = new RepackagedMusicApp();
+
+        musicApp.init();
+
+        loadButtons();
+
+        window.setOnCloseRequest(e -> closeWindow());
+
+        text = new Label();
+
+        VBox mainMenuLayout = new VBox(25);
+        mainMenuLayout.getChildren().addAll(musicLibraryButton, playlistsButton, playMusicButton,
+                saveMusicButton, loadMusicButton, quitButton, text);
+        mainMenuLayout.setAlignment(Pos.CENTER);
+
+        mainMenuScene = new Scene(mainMenuLayout, 600, 400);
+
+        window.setScene(mainMenuScene);
+        window.setTitle("Main Menu");
+        window.show();
     }
 
-    public void musicLibrary() throws Exception {
-        currentPlaylist = musicLibrary;
-        Main abc = new ViewPlaylist();
-        abc.start(stage);
+    public void loadButtons() {
+        musicLibraryButton = new Button("Music Library");
+        musicLibraryButton.setOnAction(this);
+        playlistsButton = new Button("Playlists");
+        playlistsButton.setOnAction(this);
+        playMusicButton = new Button("Play Music");
+        playMusicButton.setOnAction(this);
+        saveMusicButton = new Button("Save Music");
+        saveMusicButton.setOnAction(this);
+        loadMusicButton = new Button("Load Music");
+        loadMusicButton.setOnAction(this);
+        quitButton = new Button("Quit");
+        quitButton.setOnAction(this);
     }
 
-    // MODIFIES: this
-    // EFFECTS: loads musicLibrary and playlists from MUSIC_FILE, if that file exists;
-    // otherwise initializes accounts with default values
-    public void loadMusic() {
-        try {
-            List<Playlist> music = Reader.readPlaylists(new File(MUSIC_FILE));
-            musicLibrary = music.get(0);
-            playlists = new ArrayList<Playlist>();
-            for (int i = 1; i < music.size(); i++) {
-                playlists.add(music.get(i));
-            }
-        } catch (IOException e) {
-            musicLibrary = new Playlist("Music Library");
-            playlists = new ArrayList();
-            playMusic = new PlayMusic(musicLibrary);
+    @Override
+    public void handle(ActionEvent event) {
+        if (event.getSource() == musicLibraryButton) {
+            musicLibraryMenu.start(window, mainMenuScene, "Main Menu", musicApp.musicLibrary);
+        } else if (event.getSource() == playlistsButton) {
+            playlistsMenu.start(window, mainMenuScene, "Main Menu", musicApp);
+        } else if (event.getSource() == playMusicButton) {
+            playMusicMenu.start(window, mainMenuScene, "Main Menu", musicApp);
+        } else if (event.getSource() == saveMusicButton) {
+            musicApp.saveMusic();
+            text.setText(musicApp.saveMusic());
+        } else if (event.getSource() == loadMusicButton) {
+            musicApp.loadMusic();
+            text.setText(musicApp.loadMusic());
+        } else if (event.getSource() == quitButton) {
+            closeWindow();
         }
     }
 
-    // EFFECTS: saves musicLibrary and playlists to MUSIC_FILE
-    public void saveMusic() {
-        try {
-            Writer writer = new Writer(new File(MUSIC_FILE));
-            writer.write(musicLibrary);
-            for (Playlist playlist : playlists) {
-                writer.write(playlist);
-            }
-            writer.close();
-            text.setText("Music saved to file " + MUSIC_FILE);
-        } catch (FileNotFoundException e) {
-            text.setText("Music saved to file " + MUSIC_FILE);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+    private void closeWindow() {
+        window.close();
     }
 }

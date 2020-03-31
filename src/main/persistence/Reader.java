@@ -64,6 +64,8 @@ public class Reader {
             int songLength = Integer.parseInt(components.get(i + 2));
             playlist.addSong(new Song(songName, artist, songLength));
         }
+        playlist.setLength();
+        playlist.setNumOfSongs();
         return playlist;
     }
 }

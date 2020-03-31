@@ -24,3 +24,14 @@ project because I listen to music a lot, and I do not have an application I can 
 <li>As a user, I want to be able to save my music library and playlists when I quit the program</li>
 <li>As a user, I want to be able to still access my previous music library and playlists when the program starts</li>
 </ul>
+
+#### Instructions for Grader
+
+<ul>
+<li>You can generate the first required event (add and remove songs to my music library) by clicking music library in the main menu, then clicking add and remove.</li>
+<li>You can generate the second required event by (create multiple playlists) by clicking playlsits then clicking add and remove </li>
+<li>You can locate my visual component by clicking play music, then selecting a playlist and clicking play</li>
+<li>You can trigger my audio component by clicking play music, then selecting a playlist and clicking play</li>
+<li>You can save the state of my application by clicking the save muci button in the main menu</li>
+<li>You can reload the state of my application by clicking the load music button in the main menu</li>
+</ul>

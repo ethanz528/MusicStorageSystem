@@ -72,7 +72,7 @@ public class MusicApp {
     }
 
     // EFFECTS: saves musicLibrary and playlists to MUSIC_FILE
-    private void saveMusic() {
+    public void saveMusic() {
         try {
             Writer writer = new Writer(new File(MUSIC_FILE));
             writer.write(musicLibrary);
