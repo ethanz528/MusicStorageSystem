@@ -30,6 +30,7 @@ public class EditPlaylistMenu extends PlaylistsMenu {
 
     Playlist currentPlaylist;
 
+    @SuppressWarnings("checkstyle:MethodLength")
     public void start(Stage window, Scene previousScene, String previousTitle,
                       Playlist playlist, Playlist musicLibrary) {
         currentPlaylist = playlist;

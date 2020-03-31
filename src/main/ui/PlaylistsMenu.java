@@ -32,6 +32,7 @@ public class PlaylistsMenu extends Main {
 
     ArrayList<Playlist> playlists;
 
+    @SuppressWarnings("checkstyle:MethodLength")
     public void start(Stage window, Scene previousScene, String previousTitle, RepackagedMusicApp musicApp) {
         playlists = musicApp.playlists;
 

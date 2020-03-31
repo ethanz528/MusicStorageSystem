@@ -32,6 +32,7 @@ public class MusicLibraryMenu extends Main {
 
     Playlist currentPlaylist;
 
+    @SuppressWarnings("checkstyle:MethodLength")
     public void start(Stage window, Scene previousScene, String previousTitle, Playlist playlist) {
         currentPlaylist = playlist;
 

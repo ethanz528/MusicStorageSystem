@@ -20,6 +20,7 @@ public class PlayMusicPopup {
 
     public static Clip clip;
 
+    @SuppressWarnings("checkstyle:MethodLength")
     public static void display(String title, String message, PlayMusic playMusic) {
         Stage window = new Stage();
 
