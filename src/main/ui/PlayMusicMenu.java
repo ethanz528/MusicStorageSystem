@@ -22,6 +22,9 @@ public class PlayMusicMenu extends Main {
     Scene playMusicScene;
 
     TableView<Playlist> table;
+    TableColumn<Playlist, String> nameColumn;
+    TableColumn<Playlist, Integer> numOfSongsColumn;
+    TableColumn<Playlist, Integer> lengthColumn;
 
     Button playButton;
     Button returnButton;
@@ -32,25 +35,42 @@ public class PlayMusicMenu extends Main {
     Playlist currentPlaylist;
     Song currentSong;
 
-    @SuppressWarnings("checkstyle:MethodLength")
     public void start(Stage window, Scene previousScene, String previousTitle, RepackagedMusicApp musicApp) {
         musicLibrary = musicApp.musicLibrary;
         playlists = musicApp.playlists;
 
         editPlaylistMenu = new EditPlaylistMenu();
 
-        TableColumn<Playlist, String> nameColumn = new TableColumn<>("Name");
+        nameColumn = new TableColumn<>("Name");
         nameColumn.setMinWidth(200);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Playlist, Integer> numOfSongsColumn = new TableColumn<>("# of Songs");
+        numOfSongsColumn = new TableColumn<>("# of Songs");
         numOfSongsColumn.setMinWidth(200);
         numOfSongsColumn.setCellValueFactory(new PropertyValueFactory<>("numOfSongs"));
 
-        TableColumn<Playlist, Integer> lengthColumn = new TableColumn<>("Playlist Length");
+        lengthColumn = new TableColumn<>("Playlist Length");
         lengthColumn.setMinWidth(50);
         lengthColumn.setCellValueFactory(new PropertyValueFactory<>("length"));
 
+        makeButtons(window, previousScene, previousTitle);
+
+        HBox toolbar = new HBox(10);
+        toolbar.setPadding(new Insets(10, 0, 10, 0));
+        toolbar.getChildren().addAll(playButton, returnButton);
+
+        VBox playlistsLayout = new VBox(0);
+        playlistsLayout.getChildren().addAll(table, toolbar);
+        playlistsLayout.setAlignment(Pos.CENTER);
+        playlistsLayout.setPadding(new Insets(10, 10, 0, 10));
+
+        playMusicScene = new Scene(playlistsLayout, 600, 400);
+
+        window.setScene(playMusicScene);
+        window.setTitle("Play Music");
+    }
+
+    public void makeButtons(Stage window, Scene previousScene, String previousTitle) {
         table = new TableView<>();
         table.setItems(getPlaylists());
         table.getColumns().addAll(nameColumn, numOfSongsColumn, lengthColumn);
@@ -68,20 +88,6 @@ public class PlayMusicMenu extends Main {
             window.setScene(previousScene);
             window.setTitle(previousTitle);
         });
-
-        HBox toolbar = new HBox(10);
-        toolbar.setPadding(new Insets(10, 0, 10, 0));
-        toolbar.getChildren().addAll(playButton, returnButton);
-
-        VBox playlistsLayout = new VBox(0);
-        playlistsLayout.getChildren().addAll(table, toolbar);
-        playlistsLayout.setAlignment(Pos.CENTER);
-        playlistsLayout.setPadding(new Insets(10, 10, 0, 10));
-
-        playMusicScene = new Scene(playlistsLayout, 600, 400);
-
-        window.setScene(playMusicScene);
-        window.setTitle("Play Music");
     }
 
     public ObservableList<Playlist> getPlaylists() {
@@ -91,13 +97,5 @@ public class PlayMusicMenu extends Main {
             playlists.add(playlist);
         }
         return playlists;
-    }
-
-    public ObservableList<String> getSongInformation(Playlist playlist) {
-        ObservableList<String> songs = FXCollections.observableArrayList();
-        for (Song song : playlist.getPlaylist()) {
-            songs.add(song.getInfo());
-        }
-        return songs;
     }
 }

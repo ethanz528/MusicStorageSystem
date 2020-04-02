@@ -19,10 +19,13 @@ import java.io.File;
 public class PlayMusicPopup {
 
     public static Clip clip;
+    public static Label label;
+    public static Stage window;
+    public static Button nextSongButton;
+    public static Button closeButton;
 
-    @SuppressWarnings("checkstyle:MethodLength")
     public static void display(String title, String message, PlayMusic playMusic) {
-        Stage window = new Stage();
+        window = new Stage();
 
         Image image = new Image(new File("./data/Noticed.jpg").toURI().toString(), 300, 0,true,true);
         ImageView background = new ImageView(image);
@@ -32,21 +35,9 @@ public class PlayMusicPopup {
         window.setMinWidth(300);
         window.setMinHeight(100);
 
-        Label label = new Label(message);
+        label = new Label(message);
 
-        Button nextSongButton = new Button("Next Song");
-        nextSongButton.setOnAction(e -> {
-            playMusic.nextSong();
-            label.setText(playMusic.viewCurrentSong());
-            clip.stop();
-            playSound();
-        });
-
-        Button closeButton = new Button("Close Window");
-        closeButton.setOnAction(e -> {
-            clip.stop();
-            window.close();
-        });
+        makeButtons(playMusic);
 
         window.setOnCloseRequest(e -> clip.stop());
 
@@ -59,6 +50,22 @@ public class PlayMusicPopup {
         window.show();
 
         playSound();
+    }
+
+    public static void makeButtons(PlayMusic playMusic) {
+        nextSongButton = new Button("Next Song");
+        nextSongButton.setOnAction(e -> {
+            playMusic.nextSong();
+            label.setText(playMusic.viewCurrentSong());
+            clip.stop();
+            playSound();
+        });
+
+        closeButton = new Button("Close Window");
+        closeButton.setOnAction(e -> {
+            clip.stop();
+            window.close();
+        });
     }
 
     public static void playSound() {

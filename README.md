@@ -37,3 +37,17 @@ project because I listen to music a lot, and I do not have an application I can 
 <li>You can save the state of my application by clicking the save muci button in the main menu</li>
 <li>You can reload the state of my application by clicking the load music button in the main menu</li>
 </ul>
+
+#### Phase 4: Task 2
+I included a type hierarchy in my code. The super class is the Main class, and MusicLibraryMenu, PlaylistsMenu and PlayMusicMenu all inherit from it. They all override the start method in the Main class.
+
+#### Phase 4: Task 3
+The first problem is that the fields numOfSongs and length were added late to Playlist, and some of the classes have not been altered to account to these new fields.
+For example, they used to take .size() to find the numOfSongs, when we could have just returned the field numOfSongs. I fixed this by going through all the methods and changing them to reflect the new fields.
+Also this new field was not being used in the load and save music methods.
+
+The second problem is that I restructured the MusicApp class to RepackagedMusicApp last phase, because the gui required less functions than the phase 2.
+Also, since the gui access the playlists in the ArrayList Playlists directly, instead of by index, and other optimizations, we can remove many functions in the class.
+I cleaned up the number of methods in the class so it becomes easier to check for mistakes and so forth.
+
+UML class diagram is in the data folder

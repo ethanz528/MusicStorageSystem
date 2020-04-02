@@ -21,6 +21,9 @@ public class MusicLibraryMenu extends Main {
     Scene playlistScene;
 
     TableView<Song> table;
+    TableColumn<Song, String> nameColumn;
+    TableColumn<Song, String> artistColumn;
+    TableColumn<Song, Integer> songLengthColumn;
 
     TextField nameInput;
     TextField artistInput;
@@ -32,22 +35,40 @@ public class MusicLibraryMenu extends Main {
 
     Playlist currentPlaylist;
 
-    @SuppressWarnings("checkstyle:MethodLength")
     public void start(Stage window, Scene previousScene, String previousTitle, Playlist playlist) {
         currentPlaylist = playlist;
 
-        TableColumn<Song, String> nameColumn = new TableColumn<>("Name");
+        nameColumn = new TableColumn<>("Name");
         nameColumn.setMinWidth(200);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Song, String> artistColumn = new TableColumn<>("Artist");
+        artistColumn = new TableColumn<>("Artist");
         artistColumn.setMinWidth(200);
         artistColumn.setCellValueFactory(new PropertyValueFactory<>("artist"));
 
-        TableColumn<Song, Integer> songLengthColumn = new TableColumn<>("Song Length");
+        songLengthColumn = new TableColumn<>("Song Length");
         songLengthColumn.setMinWidth(100);
         songLengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
 
+        makeButtons(window, previousScene, previousTitle);
+
+        HBox toolbar = new HBox(10);
+        toolbar.setPadding(new Insets(10, 0, 10, 0));
+        toolbar.getChildren().addAll(
+                nameInput, artistInput, lengthInput, addSongButton, removeSongButton, returnButton);
+
+        VBox playlistLayout = new VBox(0);
+        playlistLayout.getChildren().addAll(table, toolbar);
+        playlistLayout.setAlignment(Pos.CENTER);
+        playlistLayout.setPadding(new Insets(10, 10, 0, 10));
+
+        playlistScene = new Scene(playlistLayout, 600, 400);
+
+        window.setScene(playlistScene);
+        window.setTitle(currentPlaylist.getName());
+    }
+
+    public void makeButtons(Stage window, Scene previousScene, String previousTitle) {
         table = new TableView<>();
         table.setItems(getSongs(currentPlaylist));
         table.getColumns().addAll(nameColumn, artistColumn, songLengthColumn);
@@ -73,21 +94,6 @@ public class MusicLibraryMenu extends Main {
             window.setScene(previousScene);
             window.setTitle(previousTitle);
         });
-
-        HBox toolbar = new HBox(10);
-        toolbar.setPadding(new Insets(10, 0, 10, 0));
-        toolbar.getChildren().addAll(
-                nameInput, artistInput, lengthInput, addSongButton, removeSongButton, returnButton);
-
-        VBox playlistLayout = new VBox(0);
-        playlistLayout.getChildren().addAll(table, toolbar);
-        playlistLayout.setAlignment(Pos.CENTER);
-        playlistLayout.setPadding(new Insets(10, 10, 0, 10));
-
-        playlistScene = new Scene(playlistLayout, 600, 400);
-
-        window.setScene(playlistScene);
-        window.setTitle(currentPlaylist.getName());
     }
 
     public ObservableList<Song> getSongs(Playlist playlist) {

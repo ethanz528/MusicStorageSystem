@@ -2,7 +2,6 @@ package ui;
 
 import music.PlayMusic;
 import music.Playlist;
-import music.Song;
 import persistence.Reader;
 import persistence.Writer;
 
@@ -73,49 +72,5 @@ public class RepackagedMusicApp {
         musicLibrary = new Playlist("Music Library");
         playlists = new ArrayList();
         playMusic = new PlayMusic(musicLibrary);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: adds song to musicLibrary
-    private void doAddSong(Playlist musicLibrary, String name, String artist, int songLength) {
-        musicLibrary.addSong(new Song(name, artist, songLength));
-    }
-
-    // MODIFIES: this
-    // EFFECTS: removes song from playlist
-    private void doRemoveSong(Playlist playlist, String name) {
-        playlist.removeSong(name);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: adds a new playlist
-    private void doAddPlaylist(String name) {
-        playlists.add(new Playlist(name));
-    }
-
-    // MODIFIES: this
-    // EFFECTS: add a song to playlist
-    private void doAddSongPlaylist(Playlist playlist, int index) {
-        if (index <= musicLibrary.getPlaylist().size() && index > 0) {
-            playlist.addSong(musicLibrary.getPlaylist().get(index - 1));
-        } else {
-            System.out.println("Enter a valid index");
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: changes Playlist to play music from
-    private void doPlayPlaylist(int index) {
-        if (index < playlists.size() + 1 && index > 0) {
-            if (index == 1) {
-                playMusic = new PlayMusic(musicLibrary);
-                playMusic.viewCurrentSong();
-                playMusic.pause();
-            } else {
-                playMusic = new PlayMusic(playlists.get(index));
-                playMusic.viewCurrentSong();
-                playMusic.pause();
-            }
-        }
     }
 }

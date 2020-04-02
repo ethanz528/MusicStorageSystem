@@ -22,6 +22,9 @@ public class PlaylistsMenu extends Main {
     Scene playlistsScene;
 
     TableView<Playlist> table;
+    TableColumn<Playlist, String> nameColumn;
+    TableColumn<Playlist, Integer> numOfSongsColumn;
+    TableColumn<Playlist, Integer> lengthColumn;
 
     TextField nameInput;
 
@@ -38,18 +41,37 @@ public class PlaylistsMenu extends Main {
 
         editPlaylistMenu = new EditPlaylistMenu();
 
-        TableColumn<Playlist, String> nameColumn = new TableColumn<>("Name");
+        nameColumn = new TableColumn<>("Name");
         nameColumn.setMinWidth(200);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Playlist, Integer> numOfSongsColumn = new TableColumn<>("# of Songs");
+        numOfSongsColumn = new TableColumn<>("# of Songs");
         numOfSongsColumn.setMinWidth(200);
         numOfSongsColumn.setCellValueFactory(new PropertyValueFactory<>("numOfSongs"));
 
-        TableColumn<Playlist, Integer> lengthColumn = new TableColumn<>("Playlist Length");
+        lengthColumn = new TableColumn<>("Playlist Length");
         lengthColumn.setMinWidth(50);
         lengthColumn.setCellValueFactory(new PropertyValueFactory<>("length"));
 
+        makeButtons(window, previousScene, previousTitle);
+
+        HBox toolbar = new HBox(10);
+        toolbar.setPadding(new Insets(10, 0, 10, 0));
+        toolbar.getChildren().addAll(
+                nameInput, addPlaylistButton, removePlaylistButton, editPlaylistButton, returnButton);
+
+        VBox playlistsLayout = new VBox(0);
+        playlistsLayout.getChildren().addAll(table, toolbar);
+        playlistsLayout.setAlignment(Pos.CENTER);
+        playlistsLayout.setPadding(new Insets(10, 10, 0, 10));
+
+        playlistsScene = new Scene(playlistsLayout, 600, 400);
+
+        window.setScene(playlistsScene);
+        window.setTitle("Playlists");
+    }
+
+    public void makeButtons(Stage window, Scene previousScene, String previousTitle) {
         table = new TableView<>();
         table.setItems(getPlaylists());
         table.getColumns().addAll(nameColumn, numOfSongsColumn, lengthColumn);
@@ -75,21 +97,6 @@ public class PlaylistsMenu extends Main {
             window.setScene(previousScene);
             window.setTitle(previousTitle);
         });
-
-        HBox toolbar = new HBox(10);
-        toolbar.setPadding(new Insets(10, 0, 10, 0));
-        toolbar.getChildren().addAll(
-                nameInput, addPlaylistButton, removePlaylistButton, editPlaylistButton, returnButton);
-
-        VBox playlistsLayout = new VBox(0);
-        playlistsLayout.getChildren().addAll(table, toolbar);
-        playlistsLayout.setAlignment(Pos.CENTER);
-        playlistsLayout.setPadding(new Insets(10, 10, 0, 10));
-
-        playlistsScene = new Scene(playlistsLayout, 600, 400);
-
-        window.setScene(playlistsScene);
-        window.setTitle("Playlists");
     }
 
     public ObservableList<Playlist> getPlaylists() {

@@ -53,7 +53,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         window.setOnCloseRequest(e -> closeWindow());
 
-        text = new Label();
+        text = new Label("Welcome");
 
         VBox mainMenuLayout = new VBox(25);
         mainMenuLayout.getChildren().addAll(musicLibraryButton, playlistsButton, playMusicButton,

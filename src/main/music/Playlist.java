@@ -9,17 +9,17 @@ import java.util.ArrayList;
 // Represents a playlist of songs having a name
 public class Playlist implements Saveable {
     private String name;
-    private ArrayList<Song> playlist;
     private int numOfSongs;
     private int length;
+    private ArrayList<Song> playlist;
 
     // REQUIRES: Name does not contain a comma (,)
     // EFFECTS: Playlist has been given a name, and an empty Playlist
     public Playlist(String name) {
         this.name = name;
-        playlist = new ArrayList<Song>();
         numOfSongs = 0;
         length = 0;
+        playlist = new ArrayList<Song>();
     }
 
     // MODIFIES: this
@@ -71,25 +71,11 @@ public class Playlist implements Saveable {
         System.out.println(name + " does not exist in " + getName());
     }
 
-    // EFFECTS: returns size of playlist
-    public int playlistSize() {
-        return playlist.size();
-    }
-
-    // EFFECTS: returns accumulative songLength of all the songs in playlist
-    public int playlistTime() {
-        int time = 0;
-        for (Song s : playlist) {
-            time += s.getSongLength();
-        }
-        return time;
-    }
-
     // EFFECTS: returns a string with information about the playlist and all of its songs
     public String viewPlaylist() {
         String information = "";
         information += name + ":";
-        information += "\n" + playlistSize() + " songs - " + playlistTime() + " seconds";
+        information += "\n" + numOfSongs + " songs - " + length + " seconds";
         int index = 1;
         for (Song song : playlist) {
             information += "\n" + index + ". " + song.getInfo();
@@ -114,17 +100,9 @@ public class Playlist implements Saveable {
         return playlist;
     }
 
-    public void setNumOfSongs() {
-        numOfSongs = this.playlistSize();
-    }
-
-    public void setLength() {
-        length = this.playlistTime();
-    }
-
     @Override
     public void save(PrintWriter printWriter) {
-        if (playlistSize() == 0) {
+        if (numOfSongs == 0) {
             printWriter.println(name);
         } else {
             printWriter.print(name);
@@ -142,9 +120,5 @@ public class Playlist implements Saveable {
 
     public int getNumOfSongs() {
         return numOfSongs;
-    }
-
-    public int getLength() {
-        return length;
     }
 }
